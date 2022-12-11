@@ -1,4 +1,5 @@
 import java.lang.Math;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.ArrayList;
 
@@ -93,23 +94,13 @@ public class Board{
         }
     return h;
     }
-<<<<<<< Updated upstream
-    
-    public void moveUp(){ //Move tile above the 0
-        //First find the 0
-        int zero_line = 0;
-        int zero_column = 0;
-        boolean find = false;
-=======
->>>>>>> Stashed changes
 
     public ArrayList<Integer> find_coo_zero(){
         List<Integer> rep = new ArrayList<Integer>(2);
-        for(int i = 0; i<this.size; i++){
-            for(int j = 0; j<this.size; j++){
-                if(this.board[i][j] == 0){
-                    rep.add(i);
-                    rep.add(j);
+        for(int i=0; i < this.size;i++){
+            for(int j=0; j < this.size;j++){
+                if (this.board[i][j] == 0){
+                    rep.add(i);rep.add(j);
                     return (ArrayList<Integer>) rep;
                 }
             }
@@ -122,26 +113,15 @@ public class Board{
         ArrayList<Integer> rep = find_coo_zero();
         int zero_row = rep.get(0);
         int zero_column = rep.get(1);
-       
 
-<<<<<<< Updated upstream
-        //Check if zero is not on the fisrt line
-        if(zero_line==0){
+        //Check if zero is not on the last line
+        if(zero_row==this.size-1){
             System.out.println("Can't move :'(");
         }
         else{
-            int number = this.board[zero_line-1][zero_column];
-            this.board[zero_line][zero_column] = number;
-            this.board[zero_line-1][zero_column] = 0;
-=======
-        //Check if zero is not on the last row
-        if(zero_row >= this.size-1){
-            System.out.println("Can't move :'(");
-        }
-        else{
-            this.board[zero_row][zero_column] = this.board[zero_row+1][zero_column];
+            int number = this.board[zero_row+1][zero_column];
+            this.board[zero_row][zero_column] = number;
             this.board[zero_row+1][zero_column] = 0;
->>>>>>> Stashed changes
         }
 
     }
@@ -152,34 +132,19 @@ public class Board{
         int zero_row = rep.get(0);
         int zero_column = rep.get(1);
 
-<<<<<<< Updated upstream
-        //Check if zero is not on the last line
-        if(zero_line==this.size-1){
+        //Check if zero is not on the first line
+        if(zero_row==0){
             System.out.print("Can't move :'(");
         }
         else{
-            int number = this.board[zero_line+1][zero_column];
-            this.board[zero_line][zero_column] = number;
-            this.board[zero_line+1][zero_column] = 0;
-=======
-        
-        //Check if zero is not on the first line
-        if(zero_row == 0){
-            System.out.println("Can't move :'(");
-        }
-        else{
-            this.board[zero_row][zero_column] = this.board[zero_row-1][zero_column];
+            int number = this.board[zero_row-1][zero_column];
+            this.board[zero_row][zero_column] = number;
             this.board[zero_row-1][zero_column] = 0;
->>>>>>> Stashed changes
         }
 
     }
 
-<<<<<<< Updated upstream
-    public void moveLeft(){//Move tile on the left
-=======
     public void moveRight(){
->>>>>>> Stashed changes
         //First find the 0
         ArrayList<Integer> rep = find_coo_zero();
         int zero_row = rep.get(0);
@@ -196,11 +161,7 @@ public class Board{
 
     }
 
-<<<<<<< Updated upstream
-    public void moveRight(){//Move tile on the right
-=======
     public void moveLeft(){
->>>>>>> Stashed changes
         //First find the 0
         ArrayList<Integer> rep = find_coo_zero();
         int zero_row = rep.get(0);
