@@ -95,7 +95,37 @@ public class Board{
     return h;
     }
     
-    public void moveUp(){
+    public void moveUp(){ //Move tile above the 0
+        //First find the 0
+        int zero_line = 0;
+        int zero_column = 0;
+        boolean find = false;
+
+        for(int i = 0; i<this.size; i++){
+            for(int j = 0; j<this.size; j++){
+                if(this.board[i][j]==0){
+                    zero_line = i;
+                    zero_column = j;
+                    find = true;
+                    break;
+                }
+            }
+            if(find){break;}
+        }
+
+        //Check if zero is not on the fisrt line
+        if(zero_line==0){
+            System.out.println("Can't move :'(");
+        }
+        else{
+            int number = this.board[zero_line-1][zero_column];
+            this.board[zero_line][zero_column] = number;
+            this.board[zero_line-1][zero_column] = 0;
+        }
+
+    }
+
+    public void moveDown(){//Move tile under the 0
         //First find the 0
         int zero_line = 0;
         int zero_column = 0;
@@ -115,7 +145,7 @@ public class Board{
 
         //Check if zero is not on the last line
         if(zero_line==this.size-1){
-            System.out.println("Can't move :'(");
+            System.out.print("Can't move :'(");
         }
         else{
             int number = this.board[zero_line+1][zero_column];
@@ -125,37 +155,7 @@ public class Board{
 
     }
 
-    public void moveDown(){
-        //First find the 0
-        int zero_line = 0;
-        int zero_column = 0;
-        boolean find = false;
-
-        for(int i = 0; i<this.size; i++){
-            for(int j = 0; j<this.size; j++){
-                if(this.board[i][j]==0){
-                    zero_line = i;
-                    zero_column = j;
-                    find = true;
-                    break;
-                }
-            }
-            if(find){break;}
-        }
-
-        //Check if zero is not on the first line
-        if(zero_line==0){
-            System.out.print("Can't move :'(");
-        }
-        else{
-            int number = this.board[zero_line-1][zero_column];
-            this.board[zero_line][zero_column] = number;
-            this.board[zero_line-1][zero_column] = 0;
-        }
-
-    }
-
-    public void moveLeft(){
+    public void moveLeft(){//Move tile on the left
         //First find the 0
         int zero_line = 0;
         int zero_column = 0;
@@ -185,7 +185,7 @@ public class Board{
 
     }
 
-    public void moveRight(){
+    public void moveRight(){//Move tile on the right
         //First find the 0
         int zero_line = 0;
         int zero_column = 0;
