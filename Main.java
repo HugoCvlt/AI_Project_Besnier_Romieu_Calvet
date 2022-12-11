@@ -38,6 +38,7 @@ public class Main {
             board.print_board();
 
         }//End game
+        System.out.println("Well done you win !!!!!");
 
         input.close();
     }
