@@ -12,6 +12,19 @@ public class Board{
         this.size = n;
         this.board = random_setBoard(this.size);
     }
+    public Board(Board b) {
+		this.board = new int[b.size][b.size];
+        this.size = b.size;
+		for(int i=0;i < b.size;i++){
+            for(int j=0 ; j<b.size; j++){
+                this.board[i][j] = b.board[i][j];
+            }
+        }
+	}
+
+    public Object clone(){
+		return new Board(this);
+	}
 
     public static int[][] random_setBoard(int n){
         ArrayList<Integer> mylist = new ArrayList<Integer>();
