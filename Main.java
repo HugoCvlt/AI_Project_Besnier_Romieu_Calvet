@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Board board = new Board(2);
+        Board board = new Board(3);
         
         board.print_board();
         //System.out.println(board.end_test());
@@ -14,28 +14,12 @@ public class Main {
         while (!board.end_test()){
 
             System.out.println("(u, d, l, r) ? ");
-            String play = input.nextLine();
+            char play = input.next().charAt(0);
             
-            switch(play){
-                case "u":
-                    board.moveUp();
-                    break;
-
-                case "d":
-                    board.moveDown();
-                    break;
-
-                case "l":
-                    board.moveLeft();
-                    break;
-
-                case "r":
-                    board.moveRight();
-                    break;
-
-            }//End switch
+            board.move(play);
 
             board.print_board();
+            System.out.println(board.end_test());
 
         }//End game
         System.out.println("Well done you win !!!!!");
