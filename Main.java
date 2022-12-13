@@ -1,8 +1,8 @@
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        Board board = new Board(2);
+    public static void main(String[] args) throws Exception {
+        Board board = new Board(3,5);
         
         board.print_board();
         //System.out.println(board.end_test());
@@ -14,32 +14,15 @@ public class Main {
         while (!board.end_test()){
             
             System.out.println("(" + board.get_action_available() +  ") ?");
-            String play = input.nextLine();
-            
-            switch(play){
-                case "u":
-                    board.moveUp();
-                    break;
+            char play = input.nextLine().charAt(0);
 
-                case "d":
-                    board.moveDown();
-                    break;
-
-                case "l":
-                    board.moveLeft();
-                    break;
-
-                case "r":
-                    board.moveRight();
-                    break;
-
-            }//End switch
+            board.move(play);
 
             board.print_board();
+            System.out.println(board.end_test());
 
         }//End game
         System.out.println("Well done you win !!!!!");
-
         input.close();
     }
 
