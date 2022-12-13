@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class SearchNode{
+public class SearchNode implements Comparable<SearchNode>{
     public Board state;
 	public int nbrActions;
 	public SearchNode father;
@@ -48,4 +48,20 @@ public class SearchNode{
 	    }
         return succ;
     }
+
+    public int compareTo(SearchNode s) {
+		float value = this.nbrActions+this.valH-s.nbrActions-s.valH;
+		if(value > 0.0001 || value < -0.0001)
+			return value > 0? 1 : -1;
+		//if(this.nbrActions != s.nbrActions)
+			//return this.nbrActions < s.nbrActions? 1: -1;
+		return this.identifiant - s.identifiant;
+	}
+
+    public String toString(){
+        return this.state.toString();
+    }
+
 }
+
+
