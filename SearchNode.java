@@ -19,18 +19,13 @@ public class SearchNode{
 		this.actionFather = action;
 		this.identifiant = id++;
 	}
-    public SearchNode(int size, int iter) {
-		this.state = new Board(size);
-		nbrActions = iter;
-		this.identifiant = id++;
-	}
 
     public ArrayList<SearchNode> expand() {
 		ArrayList<SearchNode> succ = new ArrayList<SearchNode>();
 		String action = this.state.get_action_available();
-        for(int i=0; i < action.length(); i++){
+        for(int j=0; j < action.length(); j++){
 			Board tmp = (Board) state.clone();
-            char play = action.charAt(i);
+            char play = action.charAt(j);
 			switch(play){
                 case 'u':
                     tmp.moveUp();
@@ -47,9 +42,10 @@ public class SearchNode{
                 case 'r':
                     tmp.moveRight();
                     break;
-                succ.add(new SearchNode(tmp,this.nbrActions+1,this,play));
             }
-		return succ;
+            succ.add(new SearchNode(tmp,this.nbrActions+1,this,play));
+		
 	    }
+        return succ;
     }
 }
