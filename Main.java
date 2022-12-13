@@ -1,7 +1,10 @@
 import java.util.Scanner;
-
+import java.util.*;
 public class Main {
-    public static void main(String[] args) throws Exception {
+
+    public static void play_the_game() throws Exception{
+        
+    
         Board board = new Board(4,20);
         
         board.show_board();
@@ -23,11 +26,30 @@ public class Main {
             board.move(play);
 
             board.show_board();
-            System.out.println(board.end_test());
-
         }//End game
         System.out.println("Well done you win !!!!!");
         input.close();
+    }
+
+    public static void apply_Uniform_search_cost() throws Exception{
+        Scanner input = new Scanner(System.in);
+        
+        System.out.println("enter the number of random move ");
+        int k = input.nextInt();
+        input.nextLine();
+        input.close();
+
+        Board board = new Board(3,k);
+        board.show_board();
+        System.out.println("Let's find the answer for you !!!");
+        Uniform_Cost_Search ucs = new Uniform_Cost_Search(board);
+        ArrayList<Character> answer = ucs.solve();
+        System.out.println("the fastest way to solve the puzzle has " + answer.size() + " moves");
+        System.out.print(answer);
+    }
+    public static void main(String[] args) throws Exception {
+        apply_Uniform_search_cost();
+
     }
 
 }
