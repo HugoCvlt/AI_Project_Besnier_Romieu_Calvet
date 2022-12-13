@@ -1,26 +1,50 @@
 import java.lang.Math;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.ArrayList;
 
 public class Board{
     public int[][] board;
     public int size;
+    private int[] coor_empty_space;
     
 
     public Board(int n){
-        this.size = n;
+        this.size = n; // size of the board
         this.board = random_setBoard(this.size);
+        this.coor_empty_space = this.find_coo_zero();
     }
     public Board(Board b) {
 		this.board = new int[b.size][b.size];
         this.size = b.size;
+        this.coor_empty_space = b.coor_empty_space;
 		for(int i=0;i < b.size;i++){
             for(int j=0 ; j<b.size; j++){
                 this.board[i][j] = b.board[i][j];
             }
         }
 	}
+
+    public String  get_action_available(){
+      int[] rep = find_coo_zero();
+      int zero_row = rep[0];
+      int zero_column = rep[1];
+      List<Character> action_available = new ArrayList<Character>();
+        
+      if (zero_row <= this.size-2){
+        action_available.add('u');
+      }
+      if (zero_row >= 1){
+        action_available.add('d');
+      } 
+      if (zero_column <= this.size - 2){
+        action_available.add('l');
+      }
+      if (zero_column >= 1){
+        action_available.add('r');
+      }
+      return action_available.toString();
+
+    }
 
     public Object clone(){
 		return new Board(this);
@@ -66,66 +90,33 @@ public class Board{
                         return false;
                     }
                 }
+                cpt++;
             }
-            cpt++;
+           
         }
         return true;
     }
 
-    public static int h1(Board b){
-        int cpt = 1;
-        int h = 0;
-        System.out.print("test");
-        for (int i=0; i< b.size; i++){
-            for (int j=0; j< b.size; j++){
-                if ((i != b.size - 1) && (j != b.size - 1)){
-                    if (b.board[i][j] != cpt){
-                       h++;      
-                    }
-                }else{
-                    if (b.board[i][j] != 0){
-                        h++;
-                    }
-                }
-                cpt++;
-            }
-        }
-        return h;
+    
 
-    }
-
-    public static int h2(Board b){
-        int h = 0;
-        for (int i=0; i< b.size; i++){
-            for (int j=0; j< b.size; j++){
-                if (b.board[i][j] != 0){
-                    h = h + (Math.abs( ((b.board[i][j] - 1 ) % b.size) - j ) + Math.abs((b.board[i][j] / b.size) - i));
-                }else{
-                    h = h + (Math.abs(b.size - 1 - i) + Math.abs(b.size - 1 - j));
-                }
-            }
-        }
-    return h;
-    }
-
-    public ArrayList<Integer> find_coo_zero(){
-        List<Integer> rep = new ArrayList<Integer>(2);
+    public int[] find_coo_zero(){
+        int[] rep = new int[2];
         for(int i=0; i < this.size;i++){
             for(int j=0; j < this.size;j++){
                 if (this.board[i][j] == 0){
-                    rep.add(i);rep.add(j);
-                    return (ArrayList<Integer>) rep;
+                    rep[0] = i ; rep[1] = j;
+                    return rep;
                 }
             }
         }
-        return (ArrayList<Integer>) rep;
+        return rep;
     }
     
     public void moveUp(){
         //First find the 0
-        ArrayList<Integer> rep = find_coo_zero();
-        int zero_row = rep.get(0);
-        int zero_column = rep.get(1);
+        int[] rep = find_coo_zero();
+        int zero_row = rep[0];
+        int zero_column = rep[1];
 
         //Check if zero is not on the last line
         if(zero_row==this.size-1){
@@ -141,9 +132,9 @@ public class Board{
 
     public void moveDown(){//Move tile under the 0
         //First find the 0
-        ArrayList<Integer> rep = find_coo_zero();
-        int zero_row = rep.get(0);
-        int zero_column = rep.get(1);
+        int[] rep = find_coo_zero();
+        int zero_row = rep[0];
+        int zero_column = rep[1];
 
         //Check if zero is not on the first line
         if(zero_row==0){
@@ -159,9 +150,9 @@ public class Board{
 
     public void moveRight(){
         //First find the 0
-        ArrayList<Integer> rep = find_coo_zero();
-        int zero_row = rep.get(0);
-        int zero_column = rep.get(1);
+        int[] rep = find_coo_zero();
+        int zero_row = rep[0];
+        int zero_column = rep[1];
 
         //Check if zero is not on the first column
         if(zero_column==0){
@@ -176,9 +167,9 @@ public class Board{
 
     public void moveLeft(){
         //First find the 0
-        ArrayList<Integer> rep = find_coo_zero();
-        int zero_row = rep.get(0);
-        int zero_column = rep.get(1);
+        int[] rep = find_coo_zero();
+        int zero_row = rep[0];
+        int zero_column = rep[1];
 
         //Check if zero is not on the last column
         if(zero_column == this.size-1){
