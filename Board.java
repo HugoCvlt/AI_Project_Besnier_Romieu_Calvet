@@ -1,7 +1,7 @@
 import java.lang.Math;
 import java.util.*;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.stream.Collectors;  
 
 public class Board{
     public int[][] board;
@@ -13,8 +13,6 @@ public class Board{
     public Board(int n, int nb_shuffle) throws Exception{
         this.size = n; // size of the board
         this.board = random_setBoard(n, nb_shuffle);
-        this.coor_empty_space = this.find_coo_zero();
-        
     }
 
     // for coping 
@@ -33,6 +31,26 @@ public class Board{
         if(n != mat.length){ throw new Exception();}
         this.size = n;
         this.board = mat;
+    }
+    // creating a board froma string 
+    public Board(String board){
+        this.board = set_board_from_string(board);
+        this.size = this.board.length;
+        
+    }
+    // becareful the string is something that looks like this "1,2,3,5,10,...,0,...""
+    public int[][] set_board_from_string(String board_s){
+        String[] s_plit = board_s.split(",");
+        int size = (int) Math.sqrt(s_plit.length);
+        int[][] board = new int[size][size];
+        int cpt = 0;
+        for(int i=0;i < size;i++){
+            for(int j=0 ; j< size; j++){
+                board[i][j] = Integer.parseInt(s_plit[cpt]);
+                cpt++;
+            }
+        }
+        return board;
     }
 
     public int[][] get_matrix(){
@@ -93,9 +111,7 @@ public class Board{
         char move;
         for(int l = 0; l < k; l++){
             available_action = shuffled.get_action_available();
-            System.out.println(available_action);
             indiceRand = (int)(Math.random()*(available_action.length()));
-            System.out.println(" indice " + indiceRand);
             move = available_action.charAt(indiceRand);
 
             shuffled.move(move);
@@ -244,5 +260,22 @@ public class Board{
                 break;
         }
     }
+    // convert the board to a string (use as Hashmap key in the Priority queue function)
+    public String toString() {
+		String s = "";
+		for(int i = 0; i < this.size; i++) {
+            for(int j = 0; j < this.size ; j++){
+                if ((i== this.size-1) && (j==this.size-1)){
+                    s += Integer.toString(this.board[i][j]);
+                }else{
+                    s += Integer.toString(this.board[i][j]);
+                    s +=",";
+                }
+                
+
+            }
+		}
+		return s;
+	}
 
 }
