@@ -1,6 +1,7 @@
 import java.lang.Math;
 import java.util.*;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Board{
     public int[][] board;
@@ -38,7 +39,7 @@ public class Board{
         return this.board;
     }
 
-    public String  get_action_available(){
+    public String get_action_available(){
       int[] rep = find_coo_zero();
       int zero_row = rep[0];
       int zero_column = rep[1];
@@ -56,7 +57,11 @@ public class Board{
       if (zero_column >= 1){
         action_available.add('r');
       }
-      return action_available.toString();
+      // getting a real string
+      String str = action_available.stream()
+                  .map(e->e.toString())
+                  .collect(Collectors.joining());
+      return str;
     }
 
     
@@ -88,7 +93,9 @@ public class Board{
         char move;
         for(int l = 0; l < k; l++){
             available_action = shuffled.get_action_available();
-            indiceRand = (int) Math.random()*available_action.length();
+            System.out.println(available_action);
+            indiceRand = (int)(Math.random()*(available_action.length()));
+            System.out.println(" indice " + indiceRand);
             move = available_action.charAt(indiceRand);
 
             shuffled.move(move);
@@ -97,7 +104,7 @@ public class Board{
         return shuffled.get_matrix();
     }
 
-    public void print_board(){
+    public void show_board(){
         for(int i=0; i< this.size; i++){
             for(int j=0; j< this.size; j++){
                  System.out.print(this.board[i][j] + "\t");   
