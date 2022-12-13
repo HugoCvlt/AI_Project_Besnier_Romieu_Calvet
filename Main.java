@@ -12,8 +12,8 @@ public class Main {
         Scanner input = new Scanner(System.in);
 
         while (!board.end_test()){
-
-            System.out.println("(u, d, l, r) ? ");
+            
+            System.out.println("(" + board.get_action_available() +  ") ?");
             String play = input.nextLine();
             
             switch(play){
