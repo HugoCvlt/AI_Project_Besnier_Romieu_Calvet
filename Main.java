@@ -66,6 +66,12 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
+        if(args.length > 0){
+            Board b = FileReader.readFile(args[0]);
+            if(b!=null){ 
+                b.show_board();
+            }
+        }
         Scanner input = new Scanner(System.in);
         apply_Uniform_search_cost(input);
         breadthSearch(input);
