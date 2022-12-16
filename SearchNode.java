@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class SearchNode implements Comparable<SearchNode>{
@@ -18,6 +19,7 @@ public class SearchNode implements Comparable<SearchNode>{
 		this.father = father;
 		this.actionFather = action;
 		this.identifiant = id++;
+        this.valH = 0; // Heuristics.h1(board) // Heuristics.h2(board)
 	}
 
     public ArrayList<SearchNode> expand() {
@@ -57,6 +59,22 @@ public class SearchNode implements Comparable<SearchNode>{
 			//return this.nbrActions < s.nbrActions? 1: -1;
 		return this.identifiant - s.identifiant;
 	}
+
+    public static ArrayList<SearchNode> isIntersecting(ArrayList<SearchNode> l1, ArrayList<SearchNode> l2){
+        for(SearchNode s1 : l1){
+            for(SearchNode s2 : l2){
+                if (SearchNode.same(s1,s2) == true){
+                    ArrayList<SearchNode> c = new ArrayList<SearchNode>(2);
+                    c.add(s1);c.add(s2);
+                    return c;
+                }
+            }
+        } return null;
+    }
+
+    public static Boolean same(SearchNode s, SearchNode s1){
+        return Board.same(s.state,s1.state);
+    }
 
     public String toString(){
         return this.state.toString();
