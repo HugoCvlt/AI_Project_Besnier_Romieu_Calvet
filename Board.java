@@ -127,6 +127,7 @@ public class Board{
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     public Boolean end_test(){
@@ -149,6 +150,19 @@ public class Board{
             }
         }
         return true;
+    }
+    public static Boolean same(Board b1, Board b2){
+        if(b1.size == b2.size){
+            for(int i=0; i< b1.size;i++){
+                for(int j=0; j< b1.size; j++){
+                    if (b1.board[i][j] != b2.board[i][j]){
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     
@@ -277,5 +291,18 @@ public class Board{
 		}
 		return s;
 	}
+
+    // to implement the Bidrectional, we need to take the opposite moves from the
+    // final state to the common state in the frontier. Otherwise, the output path
+    // (father actions will not work)
+    public static char opposite_move(char c){
+        switch(c){
+            case 'd': return 'u'; 
+            case 'u' : return 'd'; 
+            case 'r' : return 'l'; 
+            case 'l' : return 'r';
+            default: return '\0';
+        }
+    }
 
 }
