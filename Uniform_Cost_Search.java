@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
+// the UCS has a complexity of O(b ^(1 + floor(C/eps)) where C is the cost of the optimal solution , eps is the cost of the minimum cost 
 public class Uniform_Cost_Search {
     public SearchNode root;
 	public State_set explored;
@@ -27,6 +28,7 @@ public class Uniform_Cost_Search {
 			ArrayList<Character> L = new ArrayList<Character>();
 			
 			if (node.state.end_test()) {
+				System.out.println("number of expanded node states to find the best solution using UCS " +  node.identifiant);
 				while (node.father != null){ //find the root - initial state
 					L.add(node.actionFather); // u d l r 
 					node = node.father; // go to the node father
