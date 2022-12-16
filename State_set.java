@@ -1,4 +1,6 @@
+
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class State_set {
 	HashMap<String,SearchNode> set;
@@ -10,6 +12,19 @@ public class State_set {
 	public void add(SearchNode state) {
 		this.set.put(state.toString(),state);
 	}
+
+	public static SearchNode isIntersecting(State_set s1, State_set s2){
+		// find if there is a search node that is present in s1 and s2
+		// go through a HashMap
+
+		for (Entry<String,SearchNode> s : s1.set.entrySet()){
+			if (s2.set.keySet().contains(s.getKey())){
+				return s.getValue();
+			}
+		}
+		return null;
+	}
+	
 	
 	public boolean contains(SearchNode state) {
 		return this.set.containsKey(state.toString());
