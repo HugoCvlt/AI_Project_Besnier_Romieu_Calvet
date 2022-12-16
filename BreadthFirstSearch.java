@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
+
+
+// compmlexity of BFS O(|S| + |E|) = O(2|S|) = 0(|S|) it's also O(b^d)
 public class BreadthFirstSearch {
     public SearchNode root;
     public ArrayList<SearchNode> frontier;
@@ -8,8 +11,8 @@ public class BreadthFirstSearch {
 
     public BreadthFirstSearch(Board root){
         this.root = new SearchNode(root,0,null,'\0');
-        this.frontier = new ArrayList<SearchNode>();
-        this.explored = new ArrayList<SearchNode>();
+        this.frontier = new ArrayList<SearchNode>(); // used as a FIFO queue
+        this.explored = new ArrayList<SearchNode>(); // set of searchNodes
     }
 
     public ArrayList<Character> solve(){
@@ -34,6 +37,7 @@ public class BreadthFirstSearch {
                 for (SearchNode child : next) {
                     if(!(this.frontier.contains(child) || this.explored.contains(child))){
                         if(child.state.end_test()){
+                            System.out.println("number of expanded state node to find the best solution using BFS " + child.identifiant); 
                             ArrayList<Character> res = new ArrayList<Character>();
                             while(child.father != null){
                                 res.add(child.actionFather);
