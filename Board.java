@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 public class Board{
     public int[][] board;
     public int size;
-    private int[] coor_empty_space;
     
 
     //for random board
@@ -19,7 +18,6 @@ public class Board{
     public Board(Board b) {
 		this.board = new int[b.size][b.size];
         this.size = b.size;
-        this.coor_empty_space = b.coor_empty_space;
 		for(int i=0;i < b.size;i++){
             for(int j=0 ; j<b.size; j++){
                 this.board[i][j] = b.board[i][j];
