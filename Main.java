@@ -9,8 +9,8 @@ public class Main {
         
         board.show_board();
         //System.out.println(board.end_test());
-        //System.out.println(" h1 :" + Board.h1(board));
-        //System.out.println(" h2 :" + Board.h2(board));
+        System.out.println(" h1 :" + Heuristics.h1(board));
+        System.out.println(" h2 :" + Heuristics.h2(board));
 
         Scanner input = new Scanner(System.in);
 
@@ -32,29 +32,36 @@ public class Main {
     }
 
     public static void apply_Uniform_search_cost(Scanner input) throws Exception{
-        System.out.println("enter the number of random move ");
+        System.out.println();
+        System.out.println("========== TIME FOR USC ==========");
+        System.out.println("enter the number of random moves ");
         int k = input.nextInt();
         input.nextLine();
 
         Board board = new Board(3,k);
         board.show_board();
+        System.out.println(" h1 :" + Heuristics.h1(board));
+        System.out.println(" h2 :" + Heuristics.h2(board));
         System.out.println("Let's find the answer for you !!!");
-        Uniform_Cost_Search ucs = new Uniform_Cost_Search(board);
+        UniformCostSearch ucs = new UniformCostSearch(board);
         ArrayList<Character> answer = ucs.solve();
         System.out.println("the fastest way to solve the puzzle has " + answer.size() + " moves");
         System.out.print(answer);
+        System.out.println();
+        System.out.println("========== END OF UCS ==========");
     }
 
     public static void breadthSearch(Scanner input) throws Exception{
         System.out.println();
         System.out.println("========== TIME FOR BFS ==========");
         
-        System.out.println("enter the number of random move ");
+        System.out.println("enter the number of random moves ");
         int k = input.nextInt();
         input.nextLine();
-        input.close();
 
         Board board = new Board(3,k);
+        System.out.println(" h1 :" + Heuristics.h1(board));
+        System.out.println(" h2 :" + Heuristics.h2(board));
         board.show_board();
         System.out.println("Let's find the answer for you !!!");
         BreadthFirstSearch bfs = new BreadthFirstSearch(board);
@@ -65,6 +72,27 @@ public class Main {
         System.out.println("========== END OF BFS ==========");
     }
 
+    public static void bidirectional(Scanner input) throws Exception{
+        System.out.println();
+        System.out.println("========== TIME FOR Bidirectional search ==========");
+        
+        System.out.println("enter the number of random moves ");
+        int k = input.nextInt();
+        input.nextLine();
+
+        Board board = new Board(4,k);
+        System.out.println(" h1 :" + Heuristics.h1(board));
+        System.out.println(" h2 :" + Heuristics.h2(board));
+        board.show_board();
+        System.out.println("Let's find the answer for you !!!");
+        BiDirectionalSearch bidirec = new BiDirectionalSearch(board);
+        ArrayList<Character> answer = bidirec.solve();
+        System.out.println("the fastest way to solve the puzzle has " + answer.size() + " moves");
+        System.out.print(answer);
+        System.out.println();
+        System.out.println("========== END OF Bidirectional search ==========");
+    }
+
     public static void main(String[] args) throws Exception {
         if(args.length > 0){
             Board b = FileReader.readFile(args[0]);
@@ -72,9 +100,13 @@ public class Main {
                 b.show_board();
             }
         }
+        //GetResults.get_results_BFS(8,20,5);
         Scanner input = new Scanner(System.in);
-        apply_Uniform_search_cost(input);
-        breadthSearch(input);
+        //apply_Uniform_search_cost(input);
+        //breadthSearch(input);
+        //input.close();
+        //GetResults.compare_algo(4,40);
+        bidirectional(input);
         input.close();
     }
 
