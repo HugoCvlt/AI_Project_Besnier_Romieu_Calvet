@@ -93,6 +93,29 @@ public class Main {
         System.out.println("========== END OF Bidirectional search ==========");
     }
 
+    public static void Astar(Scanner input) throws Exception{
+        System.out.println();
+        System.out.println("========== TIME FOR Astar search ==========");
+        
+        System.out.println("enter the number of random moves ");
+        int k = input.nextInt();
+        input.nextLine();
+
+        System.out.println("Wich heuristic do you want to use ?");
+        int heuristic = input.nextInt();
+        input.nextLine();
+
+        Board board = new Board(4,k);
+        board.show_board();
+        System.out.println("Let's find the answer for you !!!");
+        Astar ast = new Astar(board, heuristic);
+        ArrayList<Character> answer = ast.solve();
+        System.out.println("the fastest way to solve the puzzle has " + answer.size() + " moves");
+        System.out.print(answer);
+        System.out.println();
+        System.out.println("========== END OF Astar search ==========");
+    }
+
     public static void main(String[] args) throws Exception {
         if(args.length > 0){
             Board b = FileReader.readFile(args[0]);
@@ -106,7 +129,8 @@ public class Main {
         //breadthSearch(input);
         //input.close();
         //GetResults.compare_algo(4,40);
-        bidirectional(input);
+        //bidirectional(input);
+        Astar(input);
         input.close();
     }
 
