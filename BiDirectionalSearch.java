@@ -13,9 +13,11 @@ public class BiDirectionalSearch {
     public ArrayList<SearchNode> frontier_t; // end state
     public StateSet explored_t;
 
+    public int max_size_frontier = 0;
+
     public BiDirectionalSearch(Board root) throws Exception{
-        this.root = new SearchNode(root,0,null,'\0');
-        this.end = new SearchNode(end_board(root.size),0,null,'\0');
+        this.root = new SearchNode(root,0,null,'\0',0);
+        this.end = new SearchNode(end_board(root.size),0,null,'\0',0);
         this.frontier_s =  new ArrayList<SearchNode>();// used as a FIFO queue
         this.explored_s = new StateSet(); // set of searchNodes
         this.frontier_t = new ArrayList<SearchNode>(); // FIFO
@@ -69,6 +71,13 @@ public class BiDirectionalSearch {
             if(this.frontier_t.isEmpty()){
                 return null;
             }
+            if (max_size_frontier < this.frontier_s.size()){
+                max_size_frontier = this.frontier_s.size();
+            }
+            if (max_size_frontier < this.frontier_t.size()){
+                max_size_frontier = this.frontier_s.size();
+            }
+
             curr_s = this.frontier_s.remove(0);
             curr_t = this.frontier_t.remove(0);
 
@@ -85,8 +94,9 @@ public class BiDirectionalSearch {
                      if(!(this.frontier_s.contains(child) || this.explored_s.contains(child))){
                         ArrayList<SearchNode> common_states=  SearchNode.isIntersecting(this.frontier_s,this.frontier_t);
                         if (common_states != null){
-                            int r = common_states.get(0).identifiant + common_states.get(1).identifiant;
-                            System.out.println("number of expanded state node to find the best solution using Bidirectional " + r);
+                            int r = this.frontier_s.size() + this.frontier_t.size();
+                            System.out.println("number of expanded state node to find the best solution using Bidirectional : " + r);
+                            System.out.println("the maximum size of the frontier is " + max_size_frontier);
                             ArrayList<Character> res = new ArrayList<Character>();
                             SearchNode temp_s = common_states.get(0);
                             while(temp_s.father != null){ // get the path from the root to the intersect state
@@ -115,6 +125,7 @@ public class BiDirectionalSearch {
                        if (common_states != null){
                            int r = common_states.get(0).identifiant + common_states.get(1).identifiant;
                            System.out.println("number of expanded state node to find the best solution using Bidirectional " + r);
+                           System.out.println("the maximum size of the frontier is " + max_size_frontier);
                            ArrayList<Character> res = new ArrayList<Character>();
                            SearchNode temp_s = common_states.get(0);
                            while(temp_s.father != null){ // get the path from the root to the intersect state
