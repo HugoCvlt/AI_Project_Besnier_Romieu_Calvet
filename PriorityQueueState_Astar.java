@@ -11,25 +11,7 @@ public class PriorityQueueState_Astar{
 		this.set = new HashMap<String,SearchNode>();
         this.h = new Heuristics();
 	}
-
-    public void push(SearchNode node) {
-		String stateString = node.toString();
-		SearchNode stateFrontier = this.set.get(stateString);
-		if(stateFrontier == null) {
-			this.queue.add(node);
-			this.set.put(stateString,node);
-		}
-		else {
-            // this is where the priority is checked
-			if(stateFrontier.nbrActions > node.nbrActions) {
-				this.queue.remove(stateFrontier);
-				this.set.remove(stateFrontier.toString());
-				this.queue.add(node);
-				this.set.put(stateString,node);
-			}
-		}
-	}    
-	
+   	
 	public void push_h1(SearchNode node) {
 		String stateString = node.toString();
 		SearchNode stateFrontier = this.set.get(stateString);
@@ -39,7 +21,7 @@ public class PriorityQueueState_Astar{
 		}
 		else {
             // this is where the priority is checked
-			if(stateFrontier.nbrActions + this.h.h1(stateFrontier.state) > node.nbrActions + this.h.h1(stateFrontier.state)) {
+			if((stateFrontier.nbrActions + Heuristics.h1(stateFrontier.state)) > (node.nbrActions + Heuristics.h1(node.state))) {
 				this.queue.remove(stateFrontier);
 				this.set.remove(stateFrontier.toString());
 				this.queue.add(node);
@@ -57,7 +39,7 @@ public class PriorityQueueState_Astar{
 		}
 		else {
             // this is where the priority is checked
-			if(stateFrontier.nbrActions + this.h.h2(stateFrontier.state) > node.nbrActions + this.h.h2(stateFrontier.state)) {
+			if((stateFrontier.nbrActions + Heuristics.h2(stateFrontier.state)) > (node.nbrActions + Heuristics.h2(node.state))) {
 				this.queue.remove(stateFrontier);
 				this.set.remove(stateFrontier.toString());
 				this.queue.add(node);
