@@ -30,7 +30,7 @@ public class Astar {
 			ArrayList<Character> L = new ArrayList<Character>();
 			
 			if (node.state.end_test()) {
-				System.out.println("number of expanded node states to find the best solution using Astar " +  node.identifiant);
+				System.out.println("number of expanded node states to find the best solution using Astar with the heuristic "+ this.heuristics + " : " + node.identifiant);
 				while (node.father != null){ //find the root - initial state
 					L.add(node.actionFather); // u d l r 
 					node = node.father; // go to the node father
@@ -47,15 +47,15 @@ public class Astar {
 					switch(this.heuristics){
 
 						case 1:
-						this.frontier.push_h1(child);
-						break;
+							this.frontier.push_h1(child);
+							break;
 
 						case 2:
-						this.frontier.push_h2(child);
-						break;
+							this.frontier.push_h2(child);
+							break;
 
 						default:
-						System.out.println("Heuristic does'nt exits");
+							System.out.println("Heuristic doesn't exist");
 					}
 					
 					
