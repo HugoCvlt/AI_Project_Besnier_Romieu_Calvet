@@ -8,13 +8,15 @@ public class Astar {
 	public StateSet explored;
 	public PriorityQueueState_Astar frontier;
 	public int heuristics;
+	public int max_size_frontier;
 
     public Astar(Board initialState, int heuristics){
-        this.root = new SearchNode(initialState,0,null,'\0');
+        this.root = new SearchNode(initialState,0,null,'\0', heuristics);
 		this.frontier = new PriorityQueueState_Astar();
-		this.frontier.push(this.root);
+		this.frontier.push_h1(this.root);
 		this.explored = new StateSet();
 		this.heuristics = heuristics;
+		this.max_size_frontier = 0;
     }
 	
     public ArrayList<Character> solve(){
@@ -26,11 +28,16 @@ public class Astar {
 			if (this.frontier.size() == 0) {
 				return null;
 			}
+			if (this.max_size_frontier < this.frontier.size()){
+                this.max_size_frontier = this.frontier.size();
+            }
 			node = this.frontier.pop(); // priority queue pop the lowest cost one
-			ArrayList<Character> L = new ArrayList<Character>();
+			
 			
 			if (node.state.end_test()) {
-				System.out.println("number of expanded node states to find the best solution using Astar with the heuristic "+ this.heuristics + " : " + node.identifiant);
+				ArrayList<Character> L = new ArrayList<Character>();
+				System.out.println("number of expanded node states to find the best solution using Astar with the heuristic "+ this.heuristics + " : " + this.explored.size());
+				System.out.println("the maximum size of the frontier is " + this.max_size_frontier);
 				while (node.father != null){ //find the root - initial state
 					L.add(node.actionFather); // u d l r 
 					node = node.father; // go to the node father
@@ -42,7 +49,7 @@ public class Astar {
 			this.explored.add(node);
 			
 			for (SearchNode child : node.expand()) {
-				if (!((this.explored.contains(child)) && (this.frontier.queue.contains(child)))){
+				if (!((this.explored.contains(child)) || (this.frontier.queue.contains(child)))){
 
 					switch(this.heuristics){
 
@@ -62,7 +69,19 @@ public class Astar {
 				}else if(this.frontier.queue.contains(child)){
                     // if the child is in the frontier with a higher path cost (nbrActions)
                     // then replace that frontier node with child
-					this.frontier.push(child);
+					switch(this.heuristics){
+
+						case 1:
+							this.frontier.push_h1(child);
+							break;
+
+						case 2:
+							this.frontier.push_h2(child);
+							break;
+
+						default:
+							System.out.println("Heuristic doesn't exist");
+					}
 				}	
 			}
 			
