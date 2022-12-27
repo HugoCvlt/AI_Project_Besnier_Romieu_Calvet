@@ -38,10 +38,8 @@ public class Main {
         int k = input.nextInt();
         input.nextLine();
 
-        Board board = new Board(3,k);
+        Board board = new Board(4,k);
         board.show_board();
-        System.out.println(" h1 :" + Heuristics.h1(board));
-        System.out.println(" h2 :" + Heuristics.h2(board));
         System.out.println("Let's find the answer for you !!!");
         UniformCostSearch ucs = new UniformCostSearch(board);
         ArrayList<Character> answer = ucs.solve();
@@ -59,9 +57,7 @@ public class Main {
         int k = input.nextInt();
         input.nextLine();
 
-        Board board = new Board(3,k);
-        System.out.println(" h1 :" + Heuristics.h1(board));
-        System.out.println(" h2 :" + Heuristics.h2(board));
+        Board board = new Board(4,k);
         board.show_board();
         System.out.println("Let's find the answer for you !!!");
         BreadthFirstSearch bfs = new BreadthFirstSearch(board);
@@ -101,17 +97,22 @@ public class Main {
         int k = input.nextInt();
         input.nextLine();
 
-        System.out.println("Wich heuristic do you want to use ?");
-        int heuristic = input.nextInt();
-        input.nextLine();
+        //System.out.println("Wich heuristic do you want to use ?");
+        //int heuristic = input.nextInt();
+        //input.nextLine();
 
         Board board = new Board(4,k);
         board.show_board();
         System.out.println("Let's find the answer for you !!!");
-        Astar ast = new Astar(board, heuristic);
-        ArrayList<Character> answer = ast.solve();
-        System.out.println("the fastest way to solve the puzzle has " + answer.size() + " moves");
-        System.out.print(answer);
+        Astar ast_h1 = new Astar(board, 1);
+        Astar ast_h2 = new Astar(board,2);
+        ArrayList<Character> answer_h1 = ast_h1.solve();
+        ArrayList<Character> answer_h2 = ast_h2.solve();
+        System.out.println("the fastest way to solve the puzzle has " + answer_h1.size() + " moves");
+        System.out.print(answer_h1);
+        System.out.println();
+        System.out.println("the fastest way to solve the puzzle has " + answer_h2.size() + " moves");
+        System.out.print(answer_h2);
         System.out.println();
         System.out.println("========== END OF Astar search ==========");
     }
@@ -124,14 +125,14 @@ public class Main {
             }
         }
         //GetResults.get_results_BFS(8,20,5);
-        Scanner input = new Scanner(System.in);
+        //Scanner input = new Scanner(System.in);
         //apply_Uniform_search_cost(input);
         //breadthSearch(input);
-        //input.close();
-        //GetResults.compare_algo(4,40);
+        
+        GetResults.compare_algo(4,30);
         //bidirectional(input);
-        Astar(input);
-        input.close();
+        //Astar(input);
+        //input.close();
     }
 
 }
