@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import javax.print.event.PrintEvent;
+
 public class GetResults{
 
     public static void get_results_Uniform_search_cost(int n_limit,int k_shuffle,int nb_test_by_size) throws Exception{
@@ -55,18 +57,53 @@ public class GetResults{
     public static void compare_algo(int n , int nb_shuffle) throws Exception{
         Board board = new Board(n,nb_shuffle); 
         board.show_board();
+
+        Astar a_star = new Astar(board,1);
+        long startTime_a_star = System.currentTimeMillis();
+        ArrayList<Character> ans_star = a_star.solve();
+        long endTime_a_star = System.currentTimeMillis();
+        System.out.println("nb of required moves : " + ans_star.size());
+        System.out.println("solution found by A* h1 " + ans_star + " in " + (endTime_a_star - startTime_a_star) + " milliseconds");
+
+        System.out.println();
+
+        Astar a_star_bis = new Astar(board,2);
+        long startTime_a_star_bis = System.currentTimeMillis();
+        ArrayList<Character> ans_star_bis = a_star_bis.solve();
+        long endTime_a_star_bis = System.currentTimeMillis();
+        System.out.println("solution found by A* h2" + ans_star_bis + " in " + (endTime_a_star_bis - startTime_a_star_bis) + " milliseconds");
+
+        System.out.println();
+
+        BiDirectionalSearch bds = new BiDirectionalSearch(board);
+        long startTime_bds = System.currentTimeMillis();
+        ArrayList<Character> ans_bds = bds.solve();
+        long endTime_bds = System.currentTimeMillis();
+        System.out.println("solution found by BDS " + ans_bds + " in " + (endTime_bds - startTime_bds) + " milliseconds");
+
+        System.out.println();
         UniformCostSearch ucs = new UniformCostSearch(board);
         long startTime_ucs = System.currentTimeMillis();
         ArrayList<Character> ans_ucs = ucs.solve();
         long endTime_ucs = System.currentTimeMillis();
+        System.out.println("solution found by UCS " + ans_ucs + " in " + (endTime_ucs - startTime_ucs) + " milliseconds");
+        System.out.println();
         
         BreadthFirstSearch bfs = new BreadthFirstSearch(board);
         long startTime_bfs = System.currentTimeMillis();
         ArrayList<Character> ans_bfs = bfs.solve();
         long endTime_bfs = System.currentTimeMillis();
+        System.out.println("solution found by BFS " + ans_bfs + " in " + (endTime_bfs - startTime_bfs) + " milliseconds");
+        System.out.println();
+
         
-        System.out.println("solution found by UCS" + ans_ucs + " in " + (endTime_ucs - startTime_ucs) + " milliseconds");
-        System.out.println("solution found by BFS" + ans_bfs + " in " + (endTime_bfs - startTime_bfs) + " milliseconds");
+
+    
+
+
+        
+      
+       
 
     }
 }
