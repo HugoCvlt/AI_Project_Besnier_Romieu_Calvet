@@ -7,9 +7,10 @@ public class UniformCostSearch {
     public SearchNode root;
 	public StateSet explored;
 	public PriorityQueueState frontier;
+	public int max_size_frontier = 0;
 
     public UniformCostSearch(Board initialState){
-        this.root = new SearchNode(initialState,0,null,'\0');
+        this.root = new SearchNode(initialState,0,null,'\0',0);
 		this.frontier = new PriorityQueueState();
 		this.frontier.push(this.root);
 		this.explored = new StateSet();
@@ -24,11 +25,18 @@ public class UniformCostSearch {
 			if (this.frontier.size() == 0) {
 				return null;
 			}
+
+			if (max_size_frontier < this.frontier.size()){
+                max_size_frontier = this.frontier.size();
+            }
+
 			node = this.frontier.pop(); // priority queue pop the lowest cost one
-			ArrayList<Character> L = new ArrayList<Character>();
+		
 			
 			if (node.state.end_test()) {
-				System.out.println("number of expanded node states to find the best solution using UCS " +  node.identifiant);
+				ArrayList<Character> L = new ArrayList<Character>();
+				System.out.println("number of expanded node states to find the best solution using UCS : " +  this.explored.size());
+				System.out.println("the maximum size of the frontier is " + max_size_frontier);
 				while (node.father != null){ //find the root - initial state
 					L.add(node.actionFather); // u d l r 
 					node = node.father; // go to the node father
@@ -40,7 +48,7 @@ public class UniformCostSearch {
 			this.explored.add(node);
 			
 			for (SearchNode child : node.expand()) {
-				if (!((this.explored.contains(child)) && (this.frontier.queue.contains(child)))){
+				if (!((this.explored.contains(child)) || (this.frontier.queue.contains(child)))){
 					this.frontier.push(child);
 				}else if(this.frontier.queue.contains(child)){
                     // if the child is in the frontier with a higher path cost (nbrActions)
