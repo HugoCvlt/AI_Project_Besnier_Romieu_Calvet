@@ -7,18 +7,26 @@ public class SearchNode implements Comparable<SearchNode>{
 	char actionFather;
 	public int identifiant;
 	public float valH;
+    public int heuristic;
 	public static int id = 0;
 
-    //Heuristics.h1;
-    //Heuristics.h2;
 
-    public SearchNode(Board board, int iter, SearchNode father, char action) {
+    public SearchNode(Board board, int iter, SearchNode father, char action,int heuristic) {
 		this.state =  board;
 		nbrActions = iter;
 		this.father = father;
 		this.actionFather = action;
 		this.identifiant = id++;
-        this.valH = 0; // Heuristics.h1(board) // Heuristics.h2(board)
+        this.heuristic = heuristic;
+        if (this.heuristic == 0){
+            this.valH = 1;
+        }
+        if (this.heuristic == 1){
+            this.valH = Heuristics.h1(board);
+        }
+        if (this.heuristic == 2){
+            this.valH = Heuristics.h2(board);
+        }
 	}
 
     public ArrayList<SearchNode> expand() {
@@ -44,14 +52,19 @@ public class SearchNode implements Comparable<SearchNode>{
                     tmp.moveRight();
                     break;
             }
-            succ.add(new SearchNode(tmp,this.nbrActions+1,this,play));
+            succ.add(new SearchNode(tmp,this.nbrActions+1,this,play,this.heuristic));
 		
 	    }
         return succ;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    // This method is used in the priority queue (implement with a TreeSet)
+    // the search nodes are sorted according their nb of actions and for some algos their own heuristics 
     public int compareTo(SearchNode s) {
-		float value = this.nbrActions+this.valH-s.nbrActions-s.valH;
+		float value = this.nbrActions + this.valH - s.nbrActions - s.valH;
 		if(value > 0.0001 || value < -0.0001)
 			return value > 0? 1 : -1;
 		//if(this.nbrActions != s.nbrActions)
