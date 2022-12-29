@@ -53,7 +53,35 @@ public class GetResults{
           //  System.out.println(e);
         //}
     }
+    public static void get_results_A_star(int n_limit,int k_shuffle,int nb_test_by_size,int heuristic) throws Exception{
+        // n_limit : size limits of the matrix 
+        // k_shuffle : number of random moves to shuffle
+        // nb_test : number of test for each size.
+        // the number of moves to solve the problem must be at most the number of shuffle
 
+        //ArrayList<ArrayList<Integer>> results = new ArrayList<ArrayList<Integer>>();
+        for (int i= 2; i<n_limit; i++){
+            for (int j=0 ; j<nb_test_by_size;j++){
+                Board board = new Board(i,k_shuffle);
+                Astar a_star = new Astar(board,heuristic);
+                ArrayList<Character> answer = a_star.solve();
+                System.out.println("n = " + i + ", k = " + k_shuffle + " , size of the answer " + answer.size());
+            }
+            //ArrayList<Integer> tuple = new ArrayList<Integer>(2);
+            
+            //tuple.add(i);tuple.add(sol/nb_test_by_size);
+            //results.add(tuple);
+        }
+        //for (ArrayList<Integer> e : results){
+          //  System.out.println(e);
+        //}
+    }
+
+    /**
+     * @param n
+     * @param nb_shuffle
+     * @throws Exception
+     */
     public static void compare_algo(int n , int nb_shuffle) throws Exception{
         Board board = new Board(n,nb_shuffle); 
         board.show_board();
