@@ -31,6 +31,17 @@ public class Main {
         input.close();
     }
 
+    public static void play_the_game_auto(Board board,ArrayList<Character> answer){
+        Board b = (Board) board.clone();
+        b.show_board();
+        for (int j = 0 ;  j < answer.size(); j++){
+            char move = answer.get(j);
+            System.out.println(j + "th : " + move);
+            b.move(move);
+            b.show_board();
+        }
+    }
+
     public static void apply_Uniform_search_cost(Scanner input) throws Exception{
         System.out.println();
         System.out.println("========== TIME FOR USC ==========");
@@ -117,6 +128,38 @@ public class Main {
         System.out.println("========== END OF Astar search ==========");
     }
 
+    public static void apply_IDA_star(Scanner input) throws Exception{
+        System.out.println();
+        System.out.println("========== TIME FOR IDA* search ==========");
+        
+        System.out.println("enter the number of random moves ");
+        int k = input.nextInt();
+        input.nextLine();
+
+
+        Board board = new Board(3,k);
+        board.show_board();
+        System.out.println("Let's find the answer for you !!!");
+        Astar ast_h1 = new Astar(board, 2);
+        IDAstar ida_h1 = new IDAstar(board, 1);
+        IDAstar ida_h2 = new IDAstar(board, 2);
+        ArrayList<Character> answer =  ast_h1.solve();
+        System.out.println("the fastest way with A* h2 to solve the puzzle has " + answer.size() + " moves");
+        System.out.println("A* answer : " + answer);
+        play_the_game_auto(board,answer);
+
+        ida_h1.solve();
+        System.out.println("the fastest way with IDA* h1 to solve the puzzle has " + ida_h1.answer.size() + " moves");
+        System.out.println("IDA* h1 answer : " +  ida_h1.answer);
+        play_the_game_auto(board,ida_h1.answer);
+        ida_h2.solve();
+        System.out.println("the fastest way with IDA* h2 to solve the puzzle has " + ida_h2.answer.size() + " moves");
+        System.out.println("IDA* h2 answer : " +  ida_h2.answer);
+        play_the_game_auto(board,ida_h2.answer);
+        System.out.println("========== END OF IDA* search ==========");
+        
+    }
+
     public static void main(String[] args) throws Exception {
         if(args.length > 0){
             Board b = FileReader.readFile(args[0]);
@@ -124,15 +167,16 @@ public class Main {
                 b.show_board();
             }
         }
-        //GetResults.get_results_BFS(8,20,5);
-        //Scanner input = new Scanner(System.in);
+        
+        //GetResults.get_results_A_star(10,50,10,1);
+        Scanner input = new Scanner(System.in);
         //apply_Uniform_search_cost(input);
         //breadthSearch(input);
-        
-        GetResults.compare_algo(4,30);
+        apply_IDA_star(input);
+        //GetResults.compare_algo(4,30);
         //bidirectional(input);
         //Astar(input);
-        //input.close();
+        input.close();
     }
 
 }
