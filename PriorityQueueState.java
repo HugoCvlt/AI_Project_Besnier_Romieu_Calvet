@@ -19,7 +19,7 @@ public class PriorityQueueState{
 		}
 		else {
             // this is where the priority is checked
-			if(stateFrontier.nbrActions + stateFrontier.valH > node.nbrActions + node.valH ) {
+			if( (stateFrontier.nbrActions + stateFrontier.valH) > (node.nbrActions + node.valH)) {
 				this.queue.remove(stateFrontier);
 				this.set.remove(stateFrontier.toString());
 				this.queue.add(node);
