@@ -6,15 +6,15 @@ import java.util.Collections;
 public class Astar {
     public SearchNode root;
 	public StateSet explored;
-	public PriorityQueueState_Astar frontier;
+	public PriorityQueueState frontier;
 	public int heuristics;
 	public int max_size_frontier;
 	public int max_size_explore_set;
 
     public Astar(Board initialState, int heuristics){
         this.root = new SearchNode(initialState,0,null,'\0', heuristics);
-		this.frontier = new PriorityQueueState_Astar();
-		this.frontier.push_h1(this.root);
+		this.frontier = new PriorityQueueState();
+		this.frontier.push(this.root);
 		this.explored = new StateSet();
 		this.heuristics = heuristics;
 		this.max_size_frontier = 0;
@@ -53,38 +53,11 @@ public class Astar {
 			
 			for (SearchNode child : node.expand()) {
 				if (!((this.explored.contains(child)) || (this.frontier.queue.contains(child)))){
-
-					switch(this.heuristics){
-
-						case 1:
-							this.frontier.push_h1(child);
-							break;
-
-						case 2:
-							this.frontier.push_h2(child);
-							break;
-
-						default:
-							System.out.println("Heuristic doesn't exist");
-					}
-					
-					
+					this.frontier.push(child);
 				}else if(this.frontier.queue.contains(child)){
                     // if the child is in the frontier with a higher path cost (nbrActions)
                     // then replace that frontier node with child
-					switch(this.heuristics){
-
-						case 1:
-							this.frontier.push_h1(child);
-							break;
-
-						case 2:
-							this.frontier.push_h2(child);
-							break;
-
-						default:
-							System.out.println("Heuristic doesn't exist");
-					}
+					this.frontier.push(child);
 				}	
 			}
 			
