@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-import javax.print.event.PrintEvent;
 
 public class GetResults{
 
