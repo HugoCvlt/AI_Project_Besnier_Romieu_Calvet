@@ -160,6 +160,34 @@ public class Main {
         
     }
 
+    public static void generate_solvable_problem() throws Exception{
+        int k = 70;
+        for (int i=0;i<10;i++){
+            int n = 5;
+            Board board = new Board(n,k);
+            board.show_board();
+            Astar ast = new Astar(board, 1);
+            int moves = ast.solve().size();
+            System.out.println(moves);
+            System.out.println();
+            if (moves <=10){
+                FileReader.writeFile(board,"ex_" + n +"x" + n +"_" + moves + "_moves.txt" ,"Taquin_1_10_moves");
+
+            }else if(moves <= 15){
+                FileReader.writeFile(board,"ex_" + n +"x" + n +"_" + moves + "_moves.txt" ,"Taquin_11_15_moves");
+
+            }else if(moves <= 20){
+                FileReader.writeFile(board,"ex_" + n +"x" + n +"_" + moves + "_moves.txt" ,"Taquin_16_20_moves");
+
+            }else if(moves <= 25){
+                FileReader.writeFile(board,"ex_" + n +"x" + n +"_" + moves+ "_moves.txt" ,"Taquin_21_25_moves");
+
+            }else {
+                FileReader.writeFile(board,"ex_" + n +"x" + n +"_" + moves+ "_moves.txt" ,"Taquin_26_plus_moves");
+            }
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         if(args.length > 0){
             Board b = FileReader.readFile(args[0]);
@@ -167,16 +195,17 @@ public class Main {
                 b.show_board();
             }
         }
+        //generate_solvable_problem();
         
         //GetResults.get_results_A_star(10,50,10,1);
-        Scanner input = new Scanner(System.in);
+        //Scanner input = new Scanner(System.in);
         //apply_Uniform_search_cost(input);
         //breadthSearch(input);
-        apply_IDA_star(input);
+        //apply_IDA_star(input);
         //GetResults.compare_algo(4,30);
         //bidirectional(input);
         //Astar(input);
-        input.close();
+        //input.close();
     }
 
 }
