@@ -9,6 +9,7 @@ public class Astar {
 	public PriorityQueueState_Astar frontier;
 	public int heuristics;
 	public int max_size_frontier;
+	public int max_size_explore_set;
 
     public Astar(Board initialState, int heuristics){
         this.root = new SearchNode(initialState,0,null,'\0', heuristics);
@@ -17,6 +18,7 @@ public class Astar {
 		this.explored = new StateSet();
 		this.heuristics = heuristics;
 		this.max_size_frontier = 0;
+		this.max_size_explore_set = 0;
     }
 	
     public ArrayList<Character> solve(){
@@ -36,8 +38,9 @@ public class Astar {
 			
 			if (node.state.end_test()) {
 				ArrayList<Character> L = new ArrayList<Character>();
-				System.out.println("number of expanded node states to find the best solution using Astar with the heuristic "+ this.heuristics + " : " + this.explored.size());
-				System.out.println("the maximum size of the frontier is " + this.max_size_frontier);
+				this.max_size_explore_set = this.explored.size();
+				//System.out.println("number of expanded node states to find the best solution using Astar with the heuristic "+ this.heuristics + " : " + this.explored.size());
+				//System.out.println("the maximum size of the frontier is " + this.max_size_frontier);
 				while (node.father != null){ //find the root - initial state
 					L.add(node.actionFather); // u d l r 
 					node = node.father; // go to the node father
