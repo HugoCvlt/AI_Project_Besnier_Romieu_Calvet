@@ -1,5 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class FileReader {
@@ -33,5 +36,28 @@ public class FileReader {
             System.out.println("Error : the file is not well formated");
         }
         return null;
+    }
+
+    public static void writeFile(Board b,String file_name,String dir){
+       
+        try {
+            
+            String path = "C:\\Users\\Matthias\\Documents\\GitHub\\AI_Project_Besnier_Romieu_Calvet";
+            File d = new File(path + "\\" + dir + "\\" + file_name);
+            PrintWriter writer = new PrintWriter(d, "UTF-8");
+            String temp = "";
+                for (int i=0; i< b.size; i++){
+                    temp = temp + b.board[i][0];
+                    for(int j=1; j< b.size; j++){
+                        temp = temp + "," + b.board[i][j] ;
+                    }
+                    writer.println(temp);
+                    temp = "";
+                }
+            writer.close();
+            } catch (IOException e) {
+              System.out.println("An error occurred.");
+              e.printStackTrace();
+            }
     }
 }
