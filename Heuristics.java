@@ -37,7 +37,7 @@ public class Heuristics {
         }
     return h;
     }
-
+    /*
     public static int row_nb(int value,Board b){
         int cpt = 1;
         for(int i=0; i < b.size;i++){
@@ -53,6 +53,6 @@ public class Heuristics {
             }
         }
         return -1;
-    }
+    } */
 
 }
