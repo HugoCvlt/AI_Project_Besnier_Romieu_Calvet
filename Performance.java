@@ -6,6 +6,11 @@ import java.util.LinkedHashMap;
 import java.util.TreeSet;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.TimeUnit;
 
 
 public class Performance{
@@ -122,16 +127,22 @@ public class Performance{
                     BiDirectionalSearch bds = new BiDirectionalSearch(b);
 
                     long startTime = System.currentTimeMillis();
-                    final Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
 
-                        @Override
-                        public void run(){
-                            bds.solve();
-                            bds.endTime = true;
-                            timer.cancel();
-                        }
-                    }, 4000);
+                    final ExecutorService service = Executors.newSingleThreadExecutor();
+                    try {
+                        final Future<Object> f = service.submit(() -> {
+                            return bds.solve();
+                        });
+
+                        f.get(10, TimeUnit.SECONDS);
+                    } catch (final TimeoutException e) {
+                        System.err.println("Calculation took to long");
+                    } catch (final Exception e) {
+                        throw new RuntimeException(e);
+                    } finally {
+                        service.shutdown();
+                    }
+
                     long endTime = System.currentTimeMillis();
                     timer_bds = timer_bds + (endTime - startTime);
                 } 
