@@ -4,8 +4,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.TreeSet;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -147,7 +145,101 @@ public class Performance{
                     timer_bds = timer_bds + (endTime - startTime);
                 } 
                 long moy_bds = timer_bds/boards_test.keySet().size();
-                System.out.println("Mean time to BDS for taquin " + size+"x"+size + " shuffled " + shuffle + " times : " + moy_bds + " milliseconds");
+
+                w = new FileWriter("Performance_and_stat/BDS_perf.csv", true);
+                w.write(size+","+shuffle+","+moy_bds+"\n");
+                w.close();
+
+                //BFS
+                for(Board b : boards_test.keySet()){
+                    BreadthFirstSearch bfs = new BreadthFirstSearch(b);
+
+                    long startTime = System.currentTimeMillis();
+
+                    final ExecutorService service = Executors.newSingleThreadExecutor();
+                    try {
+                        final Future<Object> f = service.submit(() -> {
+                            return bfs.solve();
+                        });
+
+                        f.get(10, TimeUnit.SECONDS);
+                    } catch (final TimeoutException e) {
+                        System.err.println("Calculation took to long");
+                    } catch (final Exception e) {
+                        throw new RuntimeException(e);
+                    } finally {
+                        service.shutdown();
+                    }
+
+                    long endTime = System.currentTimeMillis();
+                    timer_bfs = timer_bfs + (endTime - startTime);
+                } 
+                long moy_bfs = timer_bfs/boards_test.keySet().size();
+
+                w = new FileWriter("Performance_and_stat/BFS_perf.csv", true);
+                w.write(size+","+shuffle+","+moy_bfs+"\n");
+                w.close();
+
+                //IDAStar
+                for(Board b : boards_test.keySet()){
+                    IDAstar idast = new IDAstar(b, 1);
+
+                    long startTime = System.currentTimeMillis();
+
+                    final ExecutorService service = Executors.newSingleThreadExecutor();
+                    try {
+                        final Future<Object> f = service.submit(() -> {
+                            return idast.solve();
+                        });
+
+                        f.get(10, TimeUnit.SECONDS);
+                    } catch (final TimeoutException e) {
+                        System.err.println("Calculation took to long");
+                    } catch (final Exception e) {
+                        throw new RuntimeException(e);
+                    } finally {
+                        service.shutdown();
+                    }
+
+                    long endTime = System.currentTimeMillis();
+                    timer_idastar = timer_idastar + (endTime - startTime);
+                } 
+                long moy_idastar = timer_idastar/boards_test.keySet().size();
+
+                w = new FileWriter("Performance_and_stat/IDAstar_perf.csv", true);
+                w.write(size+","+shuffle+","+moy_idastar+"\n");
+                w.close();
+
+                //UCS
+                for(Board b : boards_test.keySet()){
+                    UniformCostSearch ucs = new UniformCostSearch(b);
+
+                    long startTime = System.currentTimeMillis();
+
+                    final ExecutorService service = Executors.newSingleThreadExecutor();
+                    try {
+                        final Future<Object> f = service.submit(() -> {
+                            return ucs.solve();
+                        });
+
+                        f.get(10, TimeUnit.SECONDS);
+                    } catch (final TimeoutException e) {
+                        System.err.println("Calculation took to long");
+                    } catch (final Exception e) {
+                        throw new RuntimeException(e);
+                    } finally {
+                        service.shutdown();
+                    }
+
+                    long endTime = System.currentTimeMillis();
+                    timer_ucs = timer_ucs + (endTime - startTime);
+                } 
+                long moy_ucs = timer_ucs/boards_test.keySet().size();
+
+                w = new FileWriter("Performance_and_stat/UCS_perf.csv", true);
+                w.write(size+","+shuffle+","+moy_ucs+"\n");
+                w.close();
+
 
             }
         }
