@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class BiDirectionalSearch {
+public class BiDirectionalSearch{
     // this algo has a complexity of b^d/2 + b^d/2 (means O(b^d/2) so it's much less than b^d of BFS (implementation = 2 BFS one from the starting node the 
     // b is the branching factor (max 4 in our case) and d is the depth of the solution (number of moves required)
     // the other from the bottom)
@@ -15,8 +15,9 @@ public class BiDirectionalSearch {
 
     public int max_size_frontier;
     public int max_size_explore_set;
+    public boolean endTime = false; //Useful in performance class
 
-    public BiDirectionalSearch(Board root) throws Exception{
+    public BiDirectionalSearch(Board root) throws Exception {
         this.root = new SearchNode(root,0,null,'\0',0);
         this.end = new SearchNode(end_board(root.size),0,null,'\0',0);
         this.frontier_s =  new ArrayList<SearchNode>();// used as a FIFO queue
@@ -147,7 +148,7 @@ public class BiDirectionalSearch {
             }
         }
         return null;
-    }
+    }//End solve
 
 }
 
