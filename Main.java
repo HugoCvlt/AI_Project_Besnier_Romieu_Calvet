@@ -202,10 +202,15 @@ public class Main {
         //apply_Uniform_search_cost(input);
         //breadthSearch(input);
         //apply_IDA_star(input);
-        //GetResults.compare_algo(4,30);
+        //GetResults.compare_algo(5,30);
         //bidirectional(input);
         //Astar(input);
         //input.close();
+
+        Performance p = new Performance();
+        p.calcul_performance();
+
+
     }
 
 }
