@@ -1,3 +1,4 @@
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
@@ -56,6 +57,26 @@ public class Performance{
         long timer_bfs = 0;
         long timer_ucs = 0;
 
+        //Reset file
+        FileWriter w = new FileWriter("Performance_and_stat/Astar_h1_perf.csv");
+        w.write("");
+        w.close();
+        w = new FileWriter("Performance_and_stat/Astar_h2_perf.csv");
+        w.write("");
+        w.close();
+        w = new FileWriter("Performance_and_stat/IDAstar_perf.csv");
+        w.write("");
+        w.close();
+        w = new FileWriter("Performance_and_stat/BDS_perf.csv");
+        w.write("");
+        w.close();
+        w = new FileWriter("Performance_and_stat/UCS_perf.csv");
+        w.write("");
+        w.close();
+        w = new FileWriter("Performance_and_stat/BFS_perf.csv");
+        w.write("");
+        w.close();
+
 
         for(int size : size_list){
             for(int shuffle : shuffle_list){
@@ -74,7 +95,10 @@ public class Performance{
                 }
                 
                 long moy_astar_h1 = timer_astar_h1/boards_test.keySet().size();
-                System.out.println("Mean time to A* using h1 for taquin " + size+"x"+size + " shuffled " + shuffle + " times : " + moy_astar_h1 + " milliseconds");
+
+                w = new FileWriter("Performance_and_stat/Astar_h1_perf.csv", true);
+                w.write(size+","+shuffle+","+moy_astar_h1+"\n");
+                w.close();
 
                 //Astra_h2
                 for(Board b : boards_test.keySet()){
@@ -86,8 +110,12 @@ public class Performance{
 
                     timer_astar_h2 = timer_astar_h2 + (endTime - startTime);
                 }
+
                 long moy_astar_h2 = timer_astar_h2/boards_test.keySet().size();
-                System.out.println("Mean time to A* using h2 for taquin " + size+"x"+size + " shuffled " + shuffle + " times : " + moy_astar_h2 + " milliseconds");
+
+                w = new FileWriter("Performance_and_stat/Astar_h2_perf.csv", true);
+                w.write(size+","+shuffle+","+moy_astar_h2+"\n");
+                w.close();
 
                 //BDS
                 for(Board b : boards_test.keySet()){
