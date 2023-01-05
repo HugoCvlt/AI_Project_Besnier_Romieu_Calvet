@@ -42,15 +42,9 @@ public class Main {
         }
     }
 
-    public static void apply_Uniform_search_cost(Scanner input) throws Exception{
+    public static void uniformCostSearch(Board board) throws Exception{
         System.out.println();
         System.out.println("========== TIME FOR USC ==========");
-        System.out.println("enter the number of random moves ");
-        int k = input.nextInt();
-        input.nextLine();
-
-        Board board = new Board(2,k);
-        board.show_board();
         System.out.println("Let's find the answer for you !!!");
         UniformCostSearch ucs = new UniformCostSearch(board);
         ArrayList<Character> answer = ucs.solve();
@@ -62,16 +56,10 @@ public class Main {
         System.out.println("========== END OF UCS ==========");
     }
 
-    public static void breadthSearch(Scanner input) throws Exception{
+    public static void breadthSearch(Board board) throws Exception{
         System.out.println();
         System.out.println("========== TIME FOR BFS ==========");
-        
-        System.out.println("enter the number of random moves ");
-        int k = input.nextInt();
-        input.nextLine();
 
-        Board board = new Board(4,k);
-        board.show_board();
         System.out.println("Let's find the answer for you !!!");
         BreadthFirstSearch bfs = new BreadthFirstSearch(board);
         ArrayList<Character> answer = bfs.solve();
@@ -83,16 +71,9 @@ public class Main {
         System.out.println("========== END OF BFS ==========");
     }
 
-    public static void bidirectional(Scanner input) throws Exception{
+    public static void bidirectionalSearch(Board board) throws Exception{
         System.out.println();
         System.out.println("========== TIME FOR Bidirectional search ==========");
-        
-        System.out.println("enter the number of random moves ");
-        int k = input.nextInt();
-        input.nextLine();
-
-        Board board = new Board(8,k);
-        board.show_board();
         System.out.println("Let's find the answer for you !!!");
         BiDirectionalSearch bidirec = new BiDirectionalSearch(board);
         ArrayList<Character> answer = bidirec.solve();
@@ -104,20 +85,9 @@ public class Main {
         System.out.println("========== END OF Bidirectional search ==========");
     }
 
-    public static void Astar(Scanner input) throws Exception{
+    public static void astar(Board board) throws Exception{
         System.out.println();
         System.out.println("========== TIME FOR Astar search ==========");
-        
-        System.out.println("enter the number of random moves ");
-        int k = input.nextInt();
-        input.nextLine();
-
-        //System.out.println("Wich heuristic do you want to use ?");
-        //int heuristic = input.nextInt();
-        //input.nextLine();
-
-        Board board = new Board(3,k);
-        board.show_board();
         System.out.println("Let's find the answer for you !!!");
         Astar ast_h1 = new Astar(board, 1);
         Astar ast_h2 = new Astar(board,2);
@@ -136,17 +106,9 @@ public class Main {
         System.out.println("========== END OF Astar search ==========");
     }
 
-    public static void apply_IDA_star(Scanner input) throws Exception{
+    public static void idastar(Board board) throws Exception{
         System.out.println();
         System.out.println("========== TIME FOR IDA* search ==========");
-        
-        System.out.println("enter the number of random moves ");
-        int k = input.nextInt();
-        input.nextLine();
-
-
-        Board board = new Board(2,k);
-        board.show_board();
         System.out.println("Let's find the answer for you !!!");
         Astar ast_h1 = new Astar(board, 2);
         IDAstar ida_h1 = new IDAstar(board, 1);
@@ -196,13 +158,110 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        if(args.length > 0){
-            Board b = FileReader.readFile(args[0]);
-            if(b!=null){ 
-                b.show_board();
-            }
+    public static void chooseAlgorithm(Board board, Scanner input){
+        System.out.println("Which algorithm do you want to use ?");
+        System.out.println("1 : Uniform Cost Search");
+        System.out.println("2 : Breadth First Search");
+        System.out.println("3 : Bidirectional Search");
+        System.out.println("4 : AStar");
+        System.out.println("5 : IDAstar");
+        int k = 0;
+        while(k < 1 || k > 5){
+            k = input.nextInt();
         }
+        switch(k){
+            case 1:
+                try{
+                    uniformCostSearch(board);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+                break;
+
+            case 2:
+                try{
+                    breadthSearch(board);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+                break;
+
+            case 3:
+                try{
+                    bidirectionalSearch(board);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+                break;
+
+            case 4:
+                try{
+                    astar(board);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+                break;
+
+            case 5:
+                try{
+                    idastar(board);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+                break;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        System.out.println("Hi, what do you want to do ?");
+        System.out.println("1 : Solve a taquin written in a file by one of our algorithms");
+        System.out.println("2 : Create a random taquin and let our algorithms solve it ?");
+        System.out.println("3 : Compare the speed of our algorithms ?");
+        int k = 0;
+        Scanner input = new Scanner(System.in);
+        while(k < 1 || k > 3){
+            k = input.nextInt();
+        }
+        switch(k){
+            case 1:
+                System.out.println("Please put the file in the same folder as the Main and enter its name in the terminal.");
+                String s = input.next();
+                Board b = FileReader.readFile(s);
+                b.show_board();
+                chooseAlgorithm(b, input);
+                break;
+
+            case 2:
+                System.out.println("Enter the size of the taquin.");
+                int n = input.nextInt();
+                System.out.println("Enter the number of random moves.");
+                int shuffles = input.nextInt();
+                Board board = new Board(n,shuffles);
+                board.show_board();
+                chooseAlgorithm(board, input);
+                break;
+
+            case 3:
+                System.out.println("Enter the size of the taquin.");
+                int m = input.nextInt();
+                System.out.println("Enter the number of random moves.");
+                int sh = input.nextInt();
+                GetResults.compare_algo(m, sh);
+                break;
+        }
+        input.close();
+
+        // if(args.length > 0){
+        //     Board b = FileReader.readFile(args[0]);
+        //     if(b!=null){ 
+        //         b.show_board();
+        //     }
+        // }
         //generate_solvable_problem();
         
         //GetResults.get_results_A_star(10,50,10,1);
@@ -215,9 +274,9 @@ public class Main {
         //Astar(input);
         //input.close();
 
-        Performance p = new Performance();
-        p.calcul_performance();
-        //p.calcul_perf_difficulty("Taquin_1_10_moves/ex_5x5_10_moves.txt");
+        //Performance p = new Performance();
+        //p.calcul_performance();
+        //p.calcul_perf_difficulty("Taquin_16_20_moves/ex_5x5_20_moves.txt");
 
     }
 
