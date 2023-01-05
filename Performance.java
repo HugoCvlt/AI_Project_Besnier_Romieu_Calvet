@@ -15,7 +15,7 @@ public class Performance{
 
     public LinkedHashMap<Board, Integer> generate_board_test(int nb_board, int board_size, int nb_shuffle) throws Exception{
 
-        //Generate boards and hashmap of difficulties
+        //Generate boards and hashmap of difficulties (difficulty is the length of the solution find by A*)
         
         ArrayList<Board> boards_test = new ArrayList<Board>();
         HashMap<Board, Integer> board_difficulty = new HashMap<>();
@@ -27,7 +27,7 @@ public class Performance{
             board_difficulty.put(b, a.solve().size());
         }
 
-        //Sort our hashmap by difficulty, ie sort by the length of the solution find by A*
+        //Sort our hashmap by difficulty like that we can execute the easiest at the begging
 
         TreeSet<Integer> list = new TreeSet<Integer>();
         LinkedHashMap<Board, Integer> sorted_board_by_difficulty = new LinkedHashMap<>();
@@ -45,11 +45,15 @@ public class Performance{
         }
 
         return sorted_board_by_difficulty;
-
     }
 
+    //Calcul perfornace of each algo and write them in the csv file corresponding
+    //The .csv format is as the following : size-number of suffle, mean time to solve it (time complexety), mean size of the frontier (space complexity)
     public void calcul_performance() throws Exception{
 
+        //Here are the parameters of the performance test
+        //nb_board is the number of board used to calculate performance, the bigger nb_board the better mean
+        int nb_board = 20;
         int[] size_list = {3, 4, 5, 8, 10};
         int[] shuffle_list = {5, 10, 15, 20, 30};
 
@@ -62,7 +66,6 @@ public class Performance{
 
         long space_astar_h1 = 0;
         long space_astar_h2 = 0;
-        long space_idastar = 0;
         long space_bds = 0;
         long space_bfs = 0;
         long space_ucs = 0;
@@ -87,11 +90,11 @@ public class Performance{
         w.write("");
         w.close();
 
-
+        //We are going to test all the combination of size and shuffle for all algo
         for(int size : size_list){
             for(int shuffle : shuffle_list){
 
-                LinkedHashMap<Board, Integer> boards_test = this.generate_board_test(20, size, shuffle);
+                LinkedHashMap<Board, Integer> boards_test = this.generate_board_test(nb_board, size, shuffle);
 
                 //Astar_h1
                 for(Board b : boards_test.keySet()){
@@ -265,8 +268,8 @@ public class Performance{
 
     public void calcul_perf_difficulty(String  url) throws Exception{
 
-        //Time to find the solution, depends of the difficulty, ie length of the solution.
-        //We use board already created and solve by Astar
+        //Time to find the solution, depends of the difficulty
+        //We use board already created and solve by Astar to calculate difficulties
 
         Board b = FileReader.readFile(url);
 
@@ -417,6 +420,4 @@ public class Performance{
         w.write(size+","+timer+"\n");
         w.close();
     }
-
-
 }
