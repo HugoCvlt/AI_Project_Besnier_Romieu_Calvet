@@ -1,4 +1,3 @@
-import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Map;
@@ -61,6 +60,13 @@ public class Performance{
         long timer_bfs = 0;
         long timer_ucs = 0;
 
+        long space_astar_h1 = 0;
+        long space_astar_h2 = 0;
+        long space_idastar = 0;
+        long space_bds = 0;
+        long space_bfs = 0;
+        long space_ucs = 0;
+
         //Reset file
         FileWriter w = new FileWriter("Performance_and_stat/Astar_h1_perf.csv");
         w.write("");
@@ -96,12 +102,14 @@ public class Performance{
                     long endTime = System.currentTimeMillis();
 
                     timer_astar_h1 = timer_astar_h1 + (endTime - startTime);
+                    space_astar_h1 = space_astar_h1 + ast.max_size_frontier;
                 }
                 
                 long moy_astar_h1 = timer_astar_h1/boards_test.keySet().size();
+                long moy_space_astar_h1 = space_astar_h1/boards_test.keySet().size();
 
                 w = new FileWriter("Performance_and_stat/Astar_h1_perf.csv", true);
-                w.write(size+","+shuffle+","+moy_astar_h1+"\n");
+                w.write(size+","+shuffle+","+moy_astar_h1+","+moy_space_astar_h1+"\n");
                 w.close();
 
                 //Astra_h2
@@ -113,12 +121,14 @@ public class Performance{
                     long endTime = System.currentTimeMillis();
 
                     timer_astar_h2 = timer_astar_h2 + (endTime - startTime);
+                    space_astar_h2 = space_astar_h2 + ast2.max_size_frontier;
                 }
 
                 long moy_astar_h2 = timer_astar_h2/boards_test.keySet().size();
+                long moy_space_astar_h2 = space_astar_h2/boards_test.keySet().size();
 
                 w = new FileWriter("Performance_and_stat/Astar_h2_perf.csv", true);
-                w.write(size+","+shuffle+","+moy_astar_h2+"\n");
+                w.write(size+","+shuffle+","+moy_astar_h2+","+moy_space_astar_h2+"\n");
                 w.close();
 
                 //BDS
@@ -144,11 +154,14 @@ public class Performance{
 
                     long endTime = System.currentTimeMillis();
                     timer_bds = timer_bds + (endTime - startTime);
+                    space_bds = space_bds + bds.max_size_frontier;
+
                 } 
                 long moy_bds = timer_bds/boards_test.keySet().size();
+                long moy_space_bds = space_bds/boards_test.keySet().size();
 
                 w = new FileWriter("Performance_and_stat/BDS_perf.csv", true);
-                w.write(size+","+shuffle+","+moy_bds+"\n");
+                w.write(size+","+shuffle+","+moy_bds+","+moy_space_bds+"\n");
                 w.close();
 
                 //BFS
@@ -174,11 +187,13 @@ public class Performance{
 
                     long endTime = System.currentTimeMillis();
                     timer_bfs = timer_bfs + (endTime - startTime);
+                    space_bfs = space_bfs + bfs.max_size_frontier;
                 } 
                 long moy_bfs = timer_bfs/boards_test.keySet().size();
+                long moy_space_bfs = space_bfs/boards_test.keySet().size();
 
                 w = new FileWriter("Performance_and_stat/BFS_perf.csv", true);
-                w.write(size+","+shuffle+","+moy_bfs+"\n");
+                w.write(size+","+shuffle+","+moy_bfs+","+moy_space_bfs+"\n");
                 w.close();
 
                 //IDAStar
@@ -234,11 +249,13 @@ public class Performance{
 
                     long endTime = System.currentTimeMillis();
                     timer_ucs = timer_ucs + (endTime - startTime);
+                    space_ucs = space_ucs + ucs.max_size_frontier;
                 } 
                 long moy_ucs = timer_ucs/boards_test.keySet().size();
+                long moy_space_ucs = space_ucs/boards_test.keySet().size();
 
                 w = new FileWriter("Performance_and_stat/UCS_perf.csv", true);
-                w.write(size+","+shuffle+","+moy_ucs+"\n");
+                w.write(size+","+shuffle+","+moy_ucs+","+moy_space_ucs+"\n");
                 w.close();
 
 
