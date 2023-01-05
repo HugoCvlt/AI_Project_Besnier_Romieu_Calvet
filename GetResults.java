@@ -85,11 +85,16 @@ public class GetResults{
         Board board = new Board(n,nb_shuffle); 
         board.show_board();
 
+        IDAstar ida_star = new IDAstar(board, 1);
+        long startTime_ida = System.currentTimeMillis();
+        ida_star.solve();
+        long endTime_ida = System.currentTimeMillis();
+        System.out.println("solution found by IDA* h1 " + ida_star.answer + " in " + (endTime_ida - startTime_ida) + " milliseconds");
+
         Astar a_star = new Astar(board,1);
         long startTime_a_star = System.currentTimeMillis();
         ArrayList<Character> ans_star = a_star.solve();
         long endTime_a_star = System.currentTimeMillis();
-        System.out.println("nb of required moves : " + ans_star.size());
         System.out.println("solution found by A* h1 " + ans_star + " in " + (endTime_a_star - startTime_a_star) + " milliseconds");
 
         System.out.println();
