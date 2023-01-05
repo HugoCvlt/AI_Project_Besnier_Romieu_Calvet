@@ -216,8 +216,8 @@ public class Main {
         //input.close();
 
         Performance p = new Performance();
-        p.calcul_performance();
-
+        //p.calcul_performance();
+        p.calcul_perf_difficulty("Taquin_1_10_moves/ex_5x5_10_moves.txt");
 
     }
 
