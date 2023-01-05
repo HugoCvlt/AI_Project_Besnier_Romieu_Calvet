@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Map;
@@ -243,6 +244,159 @@ public class Performance{
 
             }
         }
+    }
+
+    public void calcul_perf_difficulty(String  url) throws Exception{
+
+        //Time to find the solution, depends of the difficulty, ie length of the solution.
+        //We use board already created and solve by Astar
+
+        FileReader fr = new FileReader();
+        Board b = fr.readFile(url);
+
+        Astar ast_h1 = new Astar(b, 1);
+        Astar ast_h2 = new Astar(b, 2);
+        BiDirectionalSearch bds = new BiDirectionalSearch(b);
+        BreadthFirstSearch bfs = new BreadthFirstSearch(b);
+        UniformCostSearch ucs = new UniformCostSearch(b);
+        IDAstar ida = new IDAstar(b, 1);
+
+        long timer = 0;
+    
+
+        int difficulty = ast_h1.solve().size();
+
+        //Reset file
+        FileWriter w = new FileWriter("Performance_and_stat/Difficulty/Astar_h1_perf_difficulty"+difficulty+".csv");
+        w.write("");
+        w.close();
+        w = new FileWriter("Performance_and_stat/Difficulty/Astar_h2_perf_difficulty"+difficulty+".csv");
+        w.write("");
+        w.close();
+        w = new FileWriter("Performance_and_stat/Difficulty/BDS_perf_difficulty"+difficulty+".csv");
+        w.write("");
+        w.close();
+        w = new FileWriter("Performance_and_stat/Difficulty/BFS_perf_difficulty"+difficulty+".csv");
+        w.write("");
+        w.close();
+        w = new FileWriter("Performance_and_stat/Difficulty/UCS_perf_difficulty"+difficulty+".csv");
+        w.write("");
+        w.close();
+        w = new FileWriter("Performance_and_stat/Difficulty/IDAstar_perf_difficulty"+difficulty+".csv");
+        w.write("");
+        w.close();
+
+        //Time to solve
+        //AStar_h1
+        long startTime = System.currentTimeMillis();
+        ast_h1.solve();
+        long endTime = System.currentTimeMillis();
+
+        timer = endTime - startTime;
+
+        w = new FileWriter("Performance_and_stat/Difficulty/Astar_h1_perf_difficulty"+difficulty+".csv", true);
+        w.write(b.size+","+timer);
+        w.close();
+
+        //AStar_h1
+        startTime = System.currentTimeMillis();
+        ast_h2.solve();
+        endTime = System.currentTimeMillis();
+
+        timer = endTime - startTime;
+
+        w = new FileWriter("Performance_and_stat/Difficulty/Astar_h2_perf_difficulty"+difficulty+".csv", true);
+        w.write(b.size+","+timer+"\n");
+        w.close();
+
+        //BDS
+        final ExecutorService service = Executors.newSingleThreadExecutor();
+        startTime = System.currentTimeMillis();
+        try {
+            final Future<Object> f = service.submit(() -> {
+                return bds.solve();
+            });
+            f.get(10, TimeUnit.SECONDS);
+            } catch (final TimeoutException e) {
+                System.err.println("Calculation took to long");
+            } catch (final Exception e) {
+                throw new RuntimeException(e);
+            } finally {
+                service.shutdown();
+            }
+        endTime = System.currentTimeMillis();
+
+        timer = endTime - startTime;
+
+        w = new FileWriter("Performance_and_stat/Difficulty/BDS_perf_difficulty"+difficulty+".csv", true);
+        w.write(b.size+","+timer+"\n");
+        w.close();
+
+        //BFS
+        startTime = System.currentTimeMillis();
+        try {
+            final Future<Object> f = service.submit(() -> {
+                return bfs.solve();
+            });
+            f.get(10, TimeUnit.SECONDS);
+            } catch (final TimeoutException e) {
+                System.err.println("Calculation took to long");
+            } catch (final Exception e) {
+                throw new RuntimeException(e);
+            } finally {
+                service.shutdown();
+            }
+        endTime = System.currentTimeMillis();
+
+        timer = endTime - startTime;
+
+        w = new FileWriter("Performance_and_stat/Difficulty/BFS_perf_difficulty"+difficulty+".csv", true);
+        w.write(b.size+","+timer+"\n");
+        w.close();
+
+        //UCS
+        startTime = System.currentTimeMillis();
+        try {
+            final Future<Object> f = service.submit(() -> {
+                return ucs.solve();
+            });
+            f.get(10, TimeUnit.SECONDS);
+            } catch (final TimeoutException e) {
+                System.err.println("Calculation took to long");
+            } catch (final Exception e) {
+                throw new RuntimeException(e);
+            } finally {
+                service.shutdown();
+            }
+        endTime = System.currentTimeMillis();
+
+        timer = endTime - startTime;
+
+        w = new FileWriter("Performance_and_stat/Difficulty/UCS_perf_difficulty"+difficulty+".csv", true);
+        w.write(b.size+","+timer+"\n");
+        w.close();
+
+        //IDA
+        startTime = System.currentTimeMillis();
+        try {
+            final Future<Object> f = service.submit(() -> {
+                return ida.solve();
+            });
+            f.get(10, TimeUnit.SECONDS);
+            } catch (final TimeoutException e) {
+                System.err.println("Calculation took to long");
+            } catch (final Exception e) {
+                throw new RuntimeException(e);
+            } finally {
+                service.shutdown();
+            }
+        endTime = System.currentTimeMillis();
+
+        timer = endTime - startTime;
+
+        w = new FileWriter("Performance_and_stat/Difficulty/IDA_perf_difficulty"+difficulty+".csv", true);
+        w.write(b.size+","+timer+"\n");
+        w.close();
     }
 
 
