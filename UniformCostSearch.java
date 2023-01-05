@@ -46,6 +46,8 @@ public class UniformCostSearch {
 					node = node.father; // go to the node father
 				}
 				Collections.reverse(L);
+
+
 				return L; // the array of instruction to go from the shuffle initial board to the solution
 			}
 
@@ -57,6 +59,7 @@ public class UniformCostSearch {
 				}else if(this.frontier.queue.contains(child)){
                     // if the child is in the frontier with a higher path cost (nbrActions)
                     // then replace that frontier node with child
+					// if not don't consider it 
 					this.frontier.push(child);
 				}	
 			}

@@ -49,12 +49,14 @@ public class Main {
         int k = input.nextInt();
         input.nextLine();
 
-        Board board = new Board(4,k);
+        Board board = new Board(2,k);
         board.show_board();
         System.out.println("Let's find the answer for you !!!");
         UniformCostSearch ucs = new UniformCostSearch(board);
         ArrayList<Character> answer = ucs.solve();
         System.out.println("the fastest way to solve the puzzle has " + answer.size() + " moves");
+        System.out.println("the number of expanded nodes is : " + ucs.max_size_explore_set);
+        System.out.println("max size of the frontier is : " + ucs.max_size_frontier);
         System.out.print(answer);
         System.out.println();
         System.out.println("========== END OF UCS ==========");
@@ -74,6 +76,8 @@ public class Main {
         BreadthFirstSearch bfs = new BreadthFirstSearch(board);
         ArrayList<Character> answer = bfs.solve();
         System.out.println("the fastest way to solve the puzzle has " + answer.size() + " moves");
+        System.out.println("the number of expanded nodes is : " + bfs.max_size_explore_set);
+        System.out.println("max size of the frontier is : " + bfs.max_size_frontier);
         System.out.print(answer);
         System.out.println();
         System.out.println("========== END OF BFS ==========");
@@ -87,15 +91,15 @@ public class Main {
         int k = input.nextInt();
         input.nextLine();
 
-        Board board = new Board(4,k);
-        System.out.println(" h1 :" + Heuristics.h1(board));
-        System.out.println(" h2 :" + Heuristics.h2(board));
+        Board board = new Board(8,k);
         board.show_board();
         System.out.println("Let's find the answer for you !!!");
         BiDirectionalSearch bidirec = new BiDirectionalSearch(board);
         ArrayList<Character> answer = bidirec.solve();
         System.out.println("the fastest way to solve the puzzle has " + answer.size() + " moves");
-        System.out.print(answer);
+        System.out.println(answer);
+        System.out.println("the number of expanded nodes is : " + bidirec.max_size_explore_set);
+        System.out.println("max size of the frontier is : " + bidirec.max_size_frontier);
         System.out.println();
         System.out.println("========== END OF Bidirectional search ==========");
     }
@@ -112,7 +116,7 @@ public class Main {
         //int heuristic = input.nextInt();
         //input.nextLine();
 
-        Board board = new Board(4,k);
+        Board board = new Board(3,k);
         board.show_board();
         System.out.println("Let's find the answer for you !!!");
         Astar ast_h1 = new Astar(board, 1);
@@ -120,9 +124,13 @@ public class Main {
         ArrayList<Character> answer_h1 = ast_h1.solve();
         ArrayList<Character> answer_h2 = ast_h2.solve();
         System.out.println("the fastest way to solve the puzzle has " + answer_h1.size() + " moves");
+        System.out.println("the number of expanded nodes is : " + ast_h1.max_size_explore_set);
+        System.out.println("max size of the frontier is : " + ast_h1.max_size_frontier);
         System.out.print(answer_h1);
         System.out.println();
         System.out.println("the fastest way to solve the puzzle has " + answer_h2.size() + " moves");
+        System.out.println("the number of expanded nodes is : " + ast_h2.max_size_explore_set);
+        System.out.println("max size of the frontier is : " + ast_h2.max_size_frontier);
         System.out.print(answer_h2);
         System.out.println();
         System.out.println("========== END OF Astar search ==========");
@@ -137,7 +145,7 @@ public class Main {
         input.nextLine();
 
 
-        Board board = new Board(3,k);
+        Board board = new Board(2,k);
         board.show_board();
         System.out.println("Let's find the answer for you !!!");
         Astar ast_h1 = new Astar(board, 2);
