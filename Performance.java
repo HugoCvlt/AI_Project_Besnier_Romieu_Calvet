@@ -251,8 +251,7 @@ public class Performance{
         //Time to find the solution, depends of the difficulty, ie length of the solution.
         //We use board already created and solve by Astar
 
-        FileReader fr = new FileReader();
-        Board b = fr.readFile(url);
+        Board b = FileReader.readFile(url);
 
         Astar ast_h1 = new Astar(b, 1);
         Astar ast_h2 = new Astar(b, 2);
@@ -289,13 +288,13 @@ public class Performance{
         //Time to solve
         //AStar_h1
         long startTime = System.currentTimeMillis();
-        ast_h1.solve();
+        int size = ast_h1.solve().size();
         long endTime = System.currentTimeMillis();
 
         timer = endTime - startTime;
 
         w = new FileWriter("Performance_and_stat/Difficulty/Astar_h1_perf_difficulty"+difficulty+".csv", true);
-        w.write(b.size+","+timer);
+        w.write(size+","+timer);
         w.close();
 
         //AStar_h1
@@ -306,7 +305,7 @@ public class Performance{
         timer = endTime - startTime;
 
         w = new FileWriter("Performance_and_stat/Difficulty/Astar_h2_perf_difficulty"+difficulty+".csv", true);
-        w.write(b.size+","+timer+"\n");
+        w.write(size+","+timer+"\n");
         w.close();
 
         //BDS
@@ -329,13 +328,14 @@ public class Performance{
         timer = endTime - startTime;
 
         w = new FileWriter("Performance_and_stat/Difficulty/BDS_perf_difficulty"+difficulty+".csv", true);
-        w.write(b.size+","+timer+"\n");
+        w.write(size+","+timer+"\n");
         w.close();
 
         //BFS
+        final ExecutorService service1 = Executors.newSingleThreadExecutor();
         startTime = System.currentTimeMillis();
         try {
-            final Future<Object> f = service.submit(() -> {
+            final Future<Object> f = service1.submit(() -> {
                 return bfs.solve();
             });
             f.get(10, TimeUnit.SECONDS);
@@ -344,20 +344,21 @@ public class Performance{
             } catch (final Exception e) {
                 throw new RuntimeException(e);
             } finally {
-                service.shutdown();
+                service1.shutdown();
             }
         endTime = System.currentTimeMillis();
 
         timer = endTime - startTime;
 
         w = new FileWriter("Performance_and_stat/Difficulty/BFS_perf_difficulty"+difficulty+".csv", true);
-        w.write(b.size+","+timer+"\n");
+        w.write(size+","+timer+"\n");
         w.close();
 
         //UCS
+        final ExecutorService service2 = Executors.newSingleThreadExecutor();
         startTime = System.currentTimeMillis();
         try {
-            final Future<Object> f = service.submit(() -> {
+            final Future<Object> f = service2.submit(() -> {
                 return ucs.solve();
             });
             f.get(10, TimeUnit.SECONDS);
@@ -366,20 +367,21 @@ public class Performance{
             } catch (final Exception e) {
                 throw new RuntimeException(e);
             } finally {
-                service.shutdown();
+                service2.shutdown();
             }
         endTime = System.currentTimeMillis();
 
         timer = endTime - startTime;
 
         w = new FileWriter("Performance_and_stat/Difficulty/UCS_perf_difficulty"+difficulty+".csv", true);
-        w.write(b.size+","+timer+"\n");
+        w.write(size+","+timer+"\n");
         w.close();
 
         //IDA
+        final ExecutorService service3 = Executors.newSingleThreadExecutor();
         startTime = System.currentTimeMillis();
         try {
-            final Future<Object> f = service.submit(() -> {
+            final Future<Object> f = service3.submit(() -> {
                 return ida.solve();
             });
             f.get(10, TimeUnit.SECONDS);
@@ -388,14 +390,14 @@ public class Performance{
             } catch (final Exception e) {
                 throw new RuntimeException(e);
             } finally {
-                service.shutdown();
+                service3.shutdown();
             }
         endTime = System.currentTimeMillis();
 
         timer = endTime - startTime;
 
-        w = new FileWriter("Performance_and_stat/Difficulty/IDA_perf_difficulty"+difficulty+".csv", true);
-        w.write(b.size+","+timer+"\n");
+        w = new FileWriter("Performance_and_stat/Difficulty/IDAstar_perf_difficulty"+difficulty+".csv", true);
+        w.write(size+","+timer+"\n");
         w.close();
     }
 
